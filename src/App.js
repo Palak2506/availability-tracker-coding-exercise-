@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AvailabilityProvider } from './context/AvailabilityContext';
+import Layout from './components/layout/Layout';
+import UserDashboard from './pages/UserDashboard';
+import MentorDashboard from './pages/MentorDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import './App.css';
 
+/**
+ * App - Root: Context provider + Router + Layout.
+ * WHY: AvailabilityProvider wraps everything so all pages share state.
+ * Layout contains Sidebar + main content (Outlet).
+ */
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AvailabilityProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Navigate to="/user" replace />} />
+            <Route path="user" element={<UserDashboard />} />
+            <Route path="mentor" element={<MentorDashboard />} />
+            <Route path="admin" element={<AdminDashboard />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/user" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AvailabilityProvider>
   );
 }
 

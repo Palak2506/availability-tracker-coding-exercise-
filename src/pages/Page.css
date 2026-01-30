@@ -1,0 +1,55 @@
+.page {
+  max-width: 640px;
+}
+
+.page--admin {
+  max-width: 800px;
+}
+
+.page-heading {
+  margin: 0 0 0.35rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.page-desc {
+  margin: 0 0 1.5rem;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.admin-section {
+  margin-bottom: 2rem;
+}
+
+.admin-section:last-child {
+  margin-bottom: 0;
+}
+
+.admin-section-title {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #a5b4fc;
+}
+
+.admin-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-card {
+  background: #1a1a2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.admin-card-name {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
