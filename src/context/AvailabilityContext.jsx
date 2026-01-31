@@ -1,15 +1,18 @@
 import { createContext, useContext, useState, useCallback } from 'react';
 
+import { TIMEZONES } from '../utils/timezone';
+
 /**
  * AvailabilityContext - Central state for MULTIPLE users and mentors.
  *
  * STATE SHAPE:
- *   users: [{ id, name, availability: [{ id, day, start, end }] }]
- *   mentors: [{ id, name, availability: [{ id, day, start, end }] }]
- *   currentUserId: string  - which user the User Dashboard displays
- *   currentMentorId: string - which mentor the Mentor Dashboard displays
+ *   users: [{ id, name, availability: [{ id, day, start, end }] }]  - slots in GMT
+ *   mentors: [{ id, name, availability: [{ id, day, start, end }] }] - slots in GMT
+ *   currentUserId: string
+ *   currentMentorId: string
+ *   selectedTimezone: 'IST' | 'GMT' - for display and input
  *
- * WHY: Each person has their own availability array. Admin groups by person.
+ * WHY store in GMT: Single canonical format; prevents bugs when switching timezones.
  */
 
 const createSlot = (day, start, end) => ({
@@ -39,6 +42,7 @@ export function AvailabilityProvider({ children }) {
   const [mentors, setMentors] = useState(INITIAL_MENTORS);
   const [currentUserId, setCurrentUserId] = useState(INITIAL_USERS[0].id);
   const [currentMentorId, setCurrentMentorId] = useState(INITIAL_MENTORS[0].id);
+  const [selectedTimezone, setSelectedTimezone] = useState(TIMEZONES.GMT);
 
   const addSlot = useCallback((role, personId, { day, start, end }) => {
     const slot = createSlot(day, start, end);
@@ -122,6 +126,8 @@ export function AvailabilityProvider({ children }) {
     currentMentorId,
     setCurrentUserId,
     setCurrentMentorId,
+    selectedTimezone,
+    setSelectedTimezone,
     currentUser,
     currentMentor,
     addSlot,

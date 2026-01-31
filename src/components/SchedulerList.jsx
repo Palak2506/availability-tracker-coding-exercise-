@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { HOUR_OPTIONS, formatHour } from '../utils/timezone';
 import './SchedulerList.css';
 
 /**
@@ -15,7 +16,6 @@ export default function SchedulerList({ slots, onUpdate, onDelete, readOnly = fa
   const [error, setError] = useState('');
 
   const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  const HOURS = Array.from({ length: 24 }, (_, i) => i);
 
   const startEdit = (slot) => {
     setEditingId(slot.id);
@@ -49,7 +49,7 @@ export default function SchedulerList({ slots, onUpdate, onDelete, readOnly = fa
   };
 
   const formatSlot = (slot) =>
-    `${slot.day} · ${slot.start.toString().padStart(2, '0')}:00 – ${slot.end.toString().padStart(2, '0')}:00`;
+    `${slot.day} · ${formatHour(slot.start)} – ${formatHour(slot.end)}`;
 
   if (slots.length === 0 && !readOnly) {
     return <p className="list-empty">No time slots yet. Add one above.</p>;
@@ -75,14 +75,14 @@ export default function SchedulerList({ slots, onUpdate, onDelete, readOnly = fa
                   ))}
                 </select>
                 <select value={editStart} onChange={(e) => setEditStart(Number(e.target.value))}>
-                  {HOURS.map((h) => (
-                    <option key={h} value={h}>{h.toString().padStart(2, '0')}:00</option>
+                  {HOUR_OPTIONS.map((h) => (
+                    <option key={h} value={h}>{formatHour(h)}</option>
                   ))}
                 </select>
                 <span>–</span>
                 <select value={editEnd} onChange={(e) => setEditEnd(Number(e.target.value))}>
-                  {HOURS.map((h) => (
-                    <option key={h} value={h}>{h.toString().padStart(2, '0')}:00</option>
+                  {HOUR_OPTIONS.map((h) => (
+                    <option key={h} value={h}>{formatHour(h)}</option>
                   ))}
                 </select>
                 <button type="button" className="btn-save" onClick={saveEdit}>Save</button>

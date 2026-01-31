@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { HOUR_OPTIONS, formatHour } from '../utils/timezone';
 import './SchedulerForm.css';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-const HOURS = Array.from({ length: 24 }, (_, i) => i);
 
 /**
  * SchedulerForm - Reusable form for adding time slots.
@@ -38,7 +38,7 @@ export default function SchedulerForm({ existingSlots = [], onAdd }) {
     onAdd({ day, start, end });
     // Reset to sensible defaults after add
     setStart(end);
-    setEnd(Math.min(end + 1, 23));
+    setEnd(Math.min(end + 1, 23.5));
   };
 
   return (
@@ -57,20 +57,16 @@ export default function SchedulerForm({ existingSlots = [], onAdd }) {
         <label>
           Start
           <select value={start} onChange={(e) => setStart(Number(e.target.value))}>
-            {HOURS.map((h) => (
-              <option key={h} value={h}>
-                {h.toString().padStart(2, '0')}:00
-              </option>
+            {HOUR_OPTIONS.map((h) => (
+              <option key={h} value={h}>{formatHour(h)}</option>
             ))}
           </select>
         </label>
         <label>
           End
           <select value={end} onChange={(e) => setEnd(Number(e.target.value))}>
-            {HOURS.map((h) => (
-              <option key={h} value={h}>
-                {h.toString().padStart(2, '0')}:00
-              </option>
+            {HOUR_OPTIONS.map((h) => (
+              <option key={h} value={h}>{formatHour(h)}</option>
             ))}
           </select>
         </label>
